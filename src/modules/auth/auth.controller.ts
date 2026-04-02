@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import { registerUser, loginUser } from "./auth.service";
 import { RegisterInput, LoginInput } from "./auth.types";
+import { validateRequired } from "../../utils/validate";
 
 //controller for register
 export const register = async (req: Request, res: Response) => {
   try{
     const data = req.body as RegisterInput;
+
+    const { email, password, role } = data;
+    validateRequired({ email, password, role });
 
     const user = await registerUser(data);
 
@@ -24,6 +28,9 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const data = req.body as LoginInput;
+
+    const { email, password } = req.body;
+    validateRequired({ email, password });
 
     const result = await loginUser(data);
 

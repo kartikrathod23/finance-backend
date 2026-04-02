@@ -1,10 +1,14 @@
 import { Response } from "express";
 import { AuthRequest } from "../../types/express";
 import * as service from "./finance.service";
+import { validateRequired } from "../../utils/validate";
 
 //CREATE record
 export const create = async (req: AuthRequest, res: Response) =>{
   try{
+    const { amount, type, category, date } = req.body;
+    validateRequired({ amount, type, category, date });
+
     const record = await service.createRecord(req.user!.userId, req.body);
     res.status(201).json(record);
   }catch (error: any){
@@ -25,6 +29,10 @@ export const getAll = async (req: AuthRequest, res: Response) =>{
 //UPDATE record
 export const update = async (req: AuthRequest, res: Response) =>{
   try{
+    if(!req.body || Object.keys(req.body).length === 0){
+        throw new Error("At least one field is required to update");
+    }
+    
     const id = req.params.id as string;
     const record = await service.updateRecord(id, req.body);
     res.json(record);

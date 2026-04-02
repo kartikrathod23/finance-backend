@@ -4,11 +4,13 @@ import authRoutes from "./modules/auth/auth.routes";
 import financeRoutes from "./modules/finance/finance.routes";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes"
 import userRoutes from "./modules/user/user.routes";
+import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(errorHandler);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/finance", financeRoutes);
