@@ -14,7 +14,7 @@ export const createRecord = async (userId: string, data: CreateRecordInput) =>{
 
 //GET (with filtering + pagination)
 export const getRecords = async (userId: string, query: QueryParams) =>{
-  const { type, category, startDate, endDate, page = "1", limit = "10" } = query;
+  const { type, category, startDate, endDate, page = "1", limit = "10" ,search} = query;
 
   const filters: any = {
     userId,
@@ -23,6 +23,23 @@ export const getRecords = async (userId: string, query: QueryParams) =>{
 
   if(type) filters.type = type;
   if(category) filters.category = category;
+
+  if(search){
+    filters.OR = [
+      {
+        category: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        notes: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
 
   if(startDate || endDate){
     filters.date = {};

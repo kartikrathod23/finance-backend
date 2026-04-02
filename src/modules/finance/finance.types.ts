@@ -15,4 +15,5 @@ export type QueryParams = {
   endDate?: string;
   page?: string;
   limit?: string;
+  search?:string;
 };
