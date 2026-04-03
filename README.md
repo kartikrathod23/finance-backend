@@ -323,7 +323,7 @@ A Postman collection can be shared for reference.
 1. Clone the repository
 
 ```
-git clone <your-repo-url>
+git clone https://github.com/kartikrathod23/finance-backend.git
 cd finance-backend
 ```
 
