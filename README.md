@@ -164,39 +164,39 @@ This is enforced at route level.
 
 ### Auth
 
-* **POST /api/auth/register**
+* **POST /api/auth/register** -> 
   Registers a new user
 
-* **POST /api/auth/login**
+* **POST /api/auth/login** -> 
   Authenticates user and returns JWT
 
 ---
 
 ### Users (Admin only)
 
-* **GET /api/users**
+* **GET /api/users**  ->  
   Fetch all users
 
-* **PUT /api/users/:id/role**
+* **PUT /api/users/:id/role**  ->  
   Update user role
 
-* **PUT /api/users/:id/status**
+* **PUT /api/users/:id/status**  ->  
   Activate / deactivate user
 
 ---
 
 ### Finance
 
-* **POST /api/finance**
+* **POST /api/finance**  ->  
   Create financial record
 
-* **GET /api/finance**
+* **GET /api/finance**  ->  
   Get records (supports filtering, pagination, search)
 
-* **PUT /api/finance/:id**
+* **PUT /api/finance/:id**  ->  
   Update record
 
-* **DELETE /api/finance/:id**
+* **DELETE /api/finance/:id**  ->  
   Soft delete record
 
 Query params:
@@ -211,16 +211,16 @@ Query params:
 
 ### Dashboard
 
-* **GET /api/dashboard/summary**
+* **GET /api/dashboard/summary**  ->  
   Returns total income, expense, balance
 
-* **GET /api/dashboard/categories**
+* **GET /api/dashboard/categories**  ->  
   Category-wise aggregation
 
-* **GET /api/dashboard/recent**
+* **GET /api/dashboard/recent**  ->  
   Recent transactions
 
-* **GET /api/dashboard/trends**
+* **GET /api/dashboard/trends**  ->  
   Monthly trends
 
 ---
@@ -228,10 +228,10 @@ Query params:
 
 All user management APIs are restricted to ADMIN role.
 
-- **GET /api/users**  
+- **GET /api/users**  ->  
   Fetch all users with their role and status  
 
-- **PUT /api/users/:id/role**  
+- **PUT /api/users/:id/role**  ->  
   Update the role of a user (ADMIN / ANALYST / VIEWER)  
 
   Example body:
