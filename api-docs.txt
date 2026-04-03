@@ -1,0 +1,360 @@
+{
+  "info": {
+    "name": "Finance Backend APIs",
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "token",
+      "value": "YOUR_JWT_TOKEN"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"123456\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/register"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 201,
+              "body": "{\n  \"message\": \"User registered successfully\",\n  \"user\": {\n    \"id\": \"uuid\",\n    \"email\": \"admin@test.com\",\n    \"role\": \"ADMIN\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/login"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"message\": \"Login successful\",\n  \"token\": \"JWT_TOKEN\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "item": [
+        {
+          "name": "Create Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1000,\n  \"type\": \"INCOME\",\n  \"category\": \"Salary\",\n  \"date\": \"2026-04-02\",\n  \"notes\": \"Monthly salary\"\n}"
+            },
+            "url": "{{base_url}}/api/finance"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 201,
+              "body": "{ \"id\": \"uuid\", \"amount\": 1000, \"type\": \"INCOME\" }"
+            }
+          ]
+        },
+        {
+          "name": "Get Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/finance"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "[ { \"id\": \"uuid\", \"amount\": 5000 } ]"
+            }
+          ]
+        },
+        {
+          "name": "Filter Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/finance?type=EXPENSE&category=Food"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Record",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1200,\n  \"category\": \"Updated Category\"\n}"
+            },
+            "url": "{{base_url}}/api/finance/:id"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{ \"id\": \"uuid\", \"amount\": 1200 }"
+            }
+          ]
+        },
+        {
+          "name": "Delete Record",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/finance/:id"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{ \"message\": \"Record deleted\" }"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/dashboard/summary"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "body": "{ \"totalIncome\": 1000, \"totalExpense\": 500, \"netBalance\": 500 }"
+            }
+          ]
+        },
+        {
+          "name": "Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/dashboard/categories"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n{\n\"category\": \"Bonus\",\n\"_sum\": {\n\"amount\": 4000\n}\n  },\n{\n\"category\": \"Food\",\n\"_sum\": {\n\"amount\": 900\n }\n}\n]"
+            }
+          ]
+        },
+        {
+          "name": "Recent",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/dashboard/recent"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n \"id\": \"uuid\",\n    \"amount\": 200,\n    \"type\": \"EXPENSE\",\n \"category\": \"Food\",\n \"date\": \"2026-04-01T00:00:00.000Z\",\n\"notes\": \"Lunch\"\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Trends",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/dashboard/trends"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "body": "{ \"2026-04\": { \"income\": 6000, \"expense\": 900 } }"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{base_url}}/api/users"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"uuid\",\n      \"email\": \"viewer@test.com\",\n      \"role\": \"ANALYST\",\n      \"isActive\": false\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"role\": \"ANALYST\" }"
+            },
+            "url": "{{base_url}}/api/users/:id/role"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"message\": \"User role updated\",\n  \"data\": {\n    \"id\": \"uuid\",\n    \"role\": \"ANALYST\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Toggle Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"isActive\": false }"
+            },
+            "url": "{{base_url}}/api/users/:id/status"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"success\": true,\n  \"message\": \"User role updated\",\n  \"data\": {\n    \"id\": \"uuid\",\n    \"role\": \"ANALYST\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
